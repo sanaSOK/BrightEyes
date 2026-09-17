@@ -1,0 +1,35 @@
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { DatabaseModule } from './database/database.module';
+import { RedisModule } from './redis/redis.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
+import { SuppliersModule } from './modules/suppliers/suppliers.module';
+import { RetailShopsModule } from './modules/retail-shops/retail-shops.module';
+import { InventoryModule } from './modules/inventory/inventory.module';
+import { RetailInventoryModule } from './modules/retail-inventory/retail-inventory.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { LogisticsModule } from './modules/logistics/logistics.module';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    DatabaseModule,
+    RedisModule,
+    AuthModule,
+    UsersModule,
+    SuppliersModule,
+    RetailShopsModule,
+    InventoryModule,
+    RetailInventoryModule,
+    OrdersModule,
+    LogisticsModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}

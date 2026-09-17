@@ -1,0 +1,418 @@
+{
+  "info": {
+    "_postman_id": "brighteyes-b2b-optical-api-bruno",
+    "name": "BrightEyes B2B Optical Platform API",
+    "description": "Bruno / Postman Collection for BrightEyes B2B Optical Wholesale Ordering Platform (Phase 1)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "token_supplier",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "token_retailer",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "token_admin",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (Supplier) [Public]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"supplier@brighteyes.com\",\n  \"password\": \"Secret123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login (Retailer) [Public]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"retailer@brighteyes.com\",\n  \"password\": \"Secret123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login (Admin) [Public]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"admin@brighteyes.com\",\n  \"password\": \"Secret123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Register New Retailer [Public]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newretailer@brighteyes.com\",\n  \"phone\": \"+85599887766\",\n  \"password\": \"Secret123!\",\n  \"role\": \"retailer\",\n  \"profileName\": \"Angkor Vision Optics\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Get Profile (Me) [Requires Token]",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inventory & Catalog",
+      "item": [
+        {
+          "name": "Live Catalog (All Items) [Public]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/inventory/catalog?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["inventory", "catalog"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Catalog (Lens Matrix Filter) [Public]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/inventory/catalog?type=lens&minSph=-4.00&maxSph=0.00&inStockOnly=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["inventory", "catalog"],
+              "query": [
+                { "key": "type", "value": "lens" },
+                { "key": "minSph", "value": "-4.00" },
+                { "key": "maxSph", "value": "0.00" },
+                { "key": "inStockOnly", "value": "true" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get SKU Details [Public]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/inventory/skus/LENS-SPH-2.00-CYL-1.00-AX90",
+              "host": ["{{baseUrl}}"],
+              "path": ["inventory", "skus", "LENS-SPH-2.00-CYL-1.00-AX90"]
+            }
+          }
+        },
+        {
+          "name": "Create New SKU [Supplier Token]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_supplier}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"LENS-SPH-1.75-CYL-0.50-AX45\",\n  \"type\": \"lens\",\n  \"description\": \"Single Vision AR Lens (-1.75 / -0.50 x 45)\",\n  \"price\": 13.00,\n  \"stockLevel\": 100,\n  \"sph\": -1.75,\n  \"cyl\": -0.50,\n  \"axis\": 45,\n  \"lowStockThreshold\": 15\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inventory/skus",
+              "host": ["{{baseUrl}}"],
+              "path": ["inventory", "skus"]
+            }
+          }
+        },
+        {
+          "name": "Update SKU Stock [Supplier Token]",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_supplier}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stockLevel\": 250,\n  \"price\": 12.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inventory/skus/LENS-SPH-2.00-CYL-1.00-AX90",
+              "host": ["{{baseUrl}}"],
+              "path": ["inventory", "skus", "LENS-SPH-2.00-CYL-1.00-AX90"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders & Redis Cart",
+      "item": [
+        {
+          "name": "Get Cart Items [Retailer Token]",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders/cart",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "cart"]
+            }
+          }
+        },
+        {
+          "name": "Add Item to Cart [Retailer Token]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"LENS-SPH-2.00-CYL-1.00-AX90\",\n  \"quantity\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/cart",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "cart"]
+            }
+          }
+        },
+        {
+          "name": "Clear Cart [Retailer Token]",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders/cart",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "cart"]
+            }
+          }
+        },
+        {
+          "name": "Confirm Order [Retailer Token]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "IDEMP-BRIGHTEYES-0001"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deliveryMethod\": \"cargo_24h\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/confirm",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "confirm"]
+            }
+          }
+        },
+        {
+          "name": "List Orders History [Retailer/Supplier Token]",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Retail Inventory",
+      "item": [
+        {
+          "name": "View My Shop Synced Stock [Retailer Token]",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/retail-inventory",
+              "host": ["{{baseUrl}}"],
+              "path": ["retail-inventory"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Logistics Tracking",
+      "item": [
+        {
+          "name": "Attach Delivery Info [Supplier Token]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_supplier}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"<ORDER_UUID_HERE>\",\n  \"method\": \"cargo_24h\",\n  \"providerRef\": \"VET-CARGO-991823\",\n  \"status\": \"in_transit\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/logistics/attach",
+              "host": ["{{baseUrl}}"],
+              "path": ["logistics", "attach"]
+            }
+          }
+        },
+        {
+          "name": "Get Logistics Tracking Status [Requires Token]",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/logistics/<ORDER_UUID_HERE>",
+              "host": ["{{baseUrl}}"],
+              "path": ["logistics", "<ORDER_UUID_HERE>"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
