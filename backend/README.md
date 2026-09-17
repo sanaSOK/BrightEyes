@@ -29,37 +29,6 @@ Welcome to the backend API service for **BrightEyes** — Cambodia's B2B optical
 
 ---
 
-## Environment Setup
-
-Copy `.env.example` to `.env`:
-
-```bash
-cp .env.example .env
-```
-
-Default `.env` configuration:
-
-```env
-PORT=3001
-NODE_ENV=development
-
-DB_HOST=localhost
-DB_PORT=5432
-DB_USERNAME=postgres
-DB_PASSWORD=postgres
-DB_DATABASE=brighteyes_db
-DB_SYNC=true
-DB_LOGGING=false
-
-REDIS_HOST=localhost
-REDIS_PORT=6379
-
-JWT_SECRET=super_secret_jwt_key_brighteyes
-JWT_EXPIRES_IN=7d
-```
-
----
-
 ## Running with Docker Compose
 
 Start PostgreSQL 16 and Redis 7 in detached mode:
