@@ -2,11 +2,15 @@ export enum UserRole {
   SUPPLIER = 'supplier',
   RETAILER = 'retailer',
   ADMIN = 'admin',
+  CUSTOMER = 'customer',
 }
 
 export enum SkuType {
   LENS = 'lens',
   FRAME = 'frame',
+  CONTACT_LENS = 'contact_lens',
+  CONSUMABLE = 'consumable',
+  EQUIPMENT = 'equipment',
   ACCESSORY = 'accessory',
 }
 
@@ -24,3 +28,21 @@ export enum DeliveryMethod {
   EXPRESS_MOTO = 'express_moto',
   SELF_PICKUP = 'self_pickup',
 }
+
+export enum PaymentTerms {
+  IMMEDIATE = 'immediate',
+  CREDIT = 'credit',
+}
+
+export enum JobCardStatus {
+  RECEIVED = 'Received',
+  IN_PROCESS = 'In-Process',
+  READY = 'Ready',
+}
+
+export enum PaymentStatus {
+  PENDING = 'pending',
+  COMPLETED = 'completed',
+  FAILED = 'failed',
+}
+

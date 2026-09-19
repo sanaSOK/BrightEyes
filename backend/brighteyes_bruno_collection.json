@@ -1,8 +1,8 @@
 {
   "info": {
     "_postman_id": "brighteyes-b2b-optical-api-bruno",
-    "name": "BrightEyes B2B Optical Platform API",
-    "description": "Bruno / Postman Collection for BrightEyes B2B Optical Wholesale Ordering Platform (Phase 1)",
+    "name": "BrightEyes Optical Ecosystem API",
+    "description": "Bruno / Postman Collection for BrightEyes Optical Ecosystem (B2B Wholesale, Retail POS Clinical Hub & Consumer Marketplace)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -23,6 +23,11 @@
     },
     {
       "key": "token_admin",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "token_customer",
       "value": "",
       "type": "string"
     }
@@ -95,6 +100,27 @@
           }
         },
         {
+          "name": "Login (Customer) [Public]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"customer@brighteyes.com\",\n  \"password\": \"Secret123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
           "name": "Register New Retailer [Public]",
           "request": {
             "method": "POST",
@@ -135,56 +161,50 @@
       ]
     },
     {
-      "name": "Inventory & Catalog",
+      "name": "Lens Matrix & Catalog",
       "item": [
         {
-          "name": "Live Catalog (All Items) [Public]",
+          "name": "List Master Lens Products [Public]",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/inventory/catalog?page=1&limit=10",
+              "raw": "{{baseUrl}}/lens-matrix/products",
               "host": ["{{baseUrl}}"],
-              "path": ["inventory", "catalog"],
+              "path": ["lens-matrix", "products"]
+            }
+          }
+        },
+        {
+          "name": "Query Lens Matrix (Sph, Cyl, Axis) [Public]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/lens-matrix/variants/query?sph=-2.00&cyl=-1.00",
+              "host": ["{{baseUrl}}"],
+              "path": ["lens-matrix", "variants", "query"],
               "query": [
-                { "key": "page", "value": "1" },
-                { "key": "limit", "value": "10" }
+                { "key": "sph", "value": "-2.00" },
+                { "key": "cyl", "value": "-1.00" }
               ]
             }
           }
         },
         {
-          "name": "Catalog (Lens Matrix Filter) [Public]",
+          "name": "Get Variant by SKU [Public]",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/inventory/catalog?type=lens&minSph=-4.00&maxSph=0.00&inStockOnly=true",
+              "raw": "{{baseUrl}}/lens-matrix/variants/LENS-ESS-SPH-200-CYL-100-AX90",
               "host": ["{{baseUrl}}"],
-              "path": ["inventory", "catalog"],
-              "query": [
-                { "key": "type", "value": "lens" },
-                { "key": "minSph", "value": "-4.00" },
-                { "key": "maxSph", "value": "0.00" },
-                { "key": "inStockOnly", "value": "true" }
-              ]
+              "path": ["lens-matrix", "variants", "LENS-ESS-SPH-200-CYL-100-AX90"]
             }
           }
         },
         {
-          "name": "Get SKU Details [Public]",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/inventory/skus/LENS-SPH-2.00-CYL-1.00-AX90",
-              "host": ["{{baseUrl}}"],
-              "path": ["inventory", "skus", "LENS-SPH-2.00-CYL-1.00-AX90"]
-            }
-          }
-        },
-        {
-          "name": "Create New SKU [Supplier Token]",
+          "name": "Create Master Lens Product [Supplier Token]",
           "request": {
             "method": "POST",
             "header": [
@@ -199,44 +219,35 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"sku\": \"LENS-SPH-1.75-CYL-0.50-AX45\",\n  \"type\": \"lens\",\n  \"description\": \"Single Vision AR Lens (-1.75 / -0.50 x 45)\",\n  \"price\": 13.00,\n  \"stockLevel\": 100,\n  \"sph\": -1.75,\n  \"cyl\": -0.50,\n  \"axis\": 45,\n  \"lowStockThreshold\": 15\n}"
+              "raw": "{\n  \"brandName\": \"Hoya Nulux Full Control\",\n  \"lensType\": \"Single Vision\",\n  \"lensMaterial\": \"High-Index 1.67\",\n  \"coating\": \"Anti-Bacterial UV Protection\",\n  \"description\": \"Ultra thin high refractive index lens with full optical clarity.\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/inventory/skus",
+              "raw": "{{baseUrl}}/lens-matrix/products",
               "host": ["{{baseUrl}}"],
-              "path": ["inventory", "skus"]
+              "path": ["lens-matrix", "products"]
             }
           }
         },
         {
-          "name": "Update SKU Stock [Supplier Token]",
+          "name": "Live Catalog (All Equipment/Consumables) [Public]",
           "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token_supplier}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"stockLevel\": 250,\n  \"price\": 12.00\n}"
-            },
+            "method": "GET",
+            "header": [],
             "url": {
-              "raw": "{{baseUrl}}/inventory/skus/LENS-SPH-2.00-CYL-1.00-AX90",
+              "raw": "{{baseUrl}}/inventory/catalog?page=1&limit=10",
               "host": ["{{baseUrl}}"],
-              "path": ["inventory", "skus", "LENS-SPH-2.00-CYL-1.00-AX90"]
+              "path": ["inventory", "catalog"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
             }
           }
         }
       ]
     },
     {
-      "name": "Orders & Redis Cart",
+      "name": "Orders, Invoicing & Cart",
       "item": [
         {
           "name": "Get Cart Items [Retailer Token]",
@@ -256,7 +267,7 @@
           }
         },
         {
-          "name": "Add Item to Cart [Retailer Token]",
+          "name": "Add Lens Matrix Item to Cart [Retailer Token]",
           "request": {
             "method": "POST",
             "header": [
@@ -271,12 +282,58 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"sku\": \"LENS-SPH-2.00-CYL-1.00-AX90\",\n  \"quantity\": 10\n}"
+              "raw": "{\n  \"sku\": \"LENS-ESS-SPH-200-CYL-100-AX90\",\n  \"quantity\": 10\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/orders/cart",
               "host": ["{{baseUrl}}"],
               "path": ["orders", "cart"]
+            }
+          }
+        },
+        {
+          "name": "Confirm Order & Generate B2B Invoice [Retailer Token]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "IDEMP-BRIGHTEYES-0001"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deliveryMethod\": \"express_moto\",\n  \"paymentTerms\": \"immediate\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/confirm",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "confirm"]
+            }
+          }
+        },
+        {
+          "name": "List Orders History & Invoices [Retailer Token]",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
             }
           }
         },
@@ -296,82 +353,14 @@
               "path": ["orders", "cart"]
             }
           }
-        },
-        {
-          "name": "Confirm Order [Retailer Token]",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Idempotency-Key",
-                "value": "IDEMP-BRIGHTEYES-0001"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token_retailer}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"deliveryMethod\": \"cargo_24h\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/orders/confirm",
-              "host": ["{{baseUrl}}"],
-              "path": ["orders", "confirm"]
-            }
-          }
-        },
-        {
-          "name": "List Orders History [Retailer/Supplier Token]",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token_retailer}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/orders",
-              "host": ["{{baseUrl}}"],
-              "path": ["orders"]
-            }
-          }
         }
       ]
     },
     {
-      "name": "Retail Inventory",
+      "name": "Clinical Prescriptions (OD/OS)",
       "item": [
         {
-          "name": "View My Shop Synced Stock [Retailer Token]",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token_retailer}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/retail-inventory",
-              "host": ["{{baseUrl}}"],
-              "path": ["retail-inventory"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Logistics Tracking",
-      "item": [
-        {
-          "name": "Attach Delivery Info [Supplier Token]",
+          "name": "Create Ophthalmic Prescription [Requires Token]",
           "request": {
             "method": "POST",
             "header": [
@@ -381,22 +370,22 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer {{token_supplier}}"
+                "value": "Bearer {{token_retailer}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"orderId\": \"<ORDER_UUID_HERE>\",\n  \"method\": \"cargo_24h\",\n  \"providerRef\": \"VET-CARGO-991823\",\n  \"status\": \"in_transit\"\n}"
+              "raw": "{\n  \"customerId\": \"<CUSTOMER_UUID_HERE>\",\n  \"checkedBy\": \"Dr. Sokha Meas\",\n  \"odSph\": -2.25,\n  \"odCyl\": -1.00,\n  \"odAxis\": 90,\n  \"odAdd\": 1.50,\n  \"odPd\": 31.5,\n  \"osSph\": -2.00,\n  \"osCyl\": -0.75,\n  \"osAxis\": 180,\n  \"osAdd\": 1.50,\n  \"osPd\": 31.5,\n  \"baseCurve\": 8.6,\n  \"notes\": \"Blue-cut anti-reflective lens required.\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/logistics/attach",
+              "raw": "{{baseUrl}}/prescriptions",
               "host": ["{{baseUrl}}"],
-              "path": ["logistics", "attach"]
+              "path": ["prescriptions"]
             }
           }
         },
         {
-          "name": "Get Logistics Tracking Status [Requires Token]",
+          "name": "Get Prescriptions by Customer ID [Requires Token]",
           "request": {
             "method": "GET",
             "header": [
@@ -406,9 +395,209 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/logistics/<ORDER_UUID_HERE>",
+              "raw": "{{baseUrl}}/prescriptions/customer/<CUSTOMER_UUID_HERE>",
               "host": ["{{baseUrl}}"],
-              "path": ["logistics", "<ORDER_UUID_HERE>"]
+              "path": ["prescriptions", "customer", "<CUSTOMER_UUID_HERE>"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "POS Lab & Job Card Tracking",
+      "item": [
+        {
+          "name": "Create Lens Edging Job Card [Retailer Token]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lensDetails\": \"Essilor Crizal Sapphire HR (-2.25/-1.00 x 90)\",\n  \"notes\": \"Mounting into Titanium Frame\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/job-cards",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-cards"]
+            }
+          }
+        },
+        {
+          "name": "List Job Cards for Shop [Retailer Token]",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/job-cards",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-cards"]
+            }
+          }
+        },
+        {
+          "name": "Update Job Card Status (Received -> In-Process -> Ready) [Retailer Token]",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_retailer}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Ready\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/job-cards/<JOB_CARD_UUID>/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-cards", "<JOB_CARD_UUID>", "status"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bakong KHQR Payments",
+      "item": [
+        {
+          "name": "Generate Bakong KHQR Code [Public]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 45.00,\n  \"currency\": \"USD\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/khqr/generate",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "khqr", "generate"]
+            }
+          }
+        },
+        {
+          "name": "Bakong KHQR Webhook Callback (Reconciliation) [Public]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"md5\": \"<MD5_HASH_FROM_GENERATE_STEP>\",\n  \"status\": \"SUCCESS\",\n  \"amount\": 45.00,\n  \"currency\": \"USD\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/khqr/webhook",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "khqr", "webhook"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "SMS OTP Patient Vault",
+      "item": [
+        {
+          "name": "Request SMS OTP [Public]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"+85512333333\",\n  \"purpose\": \"prescriptions_access\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/otp/request",
+              "host": ["{{baseUrl}}"],
+              "path": ["otp", "request"]
+            }
+          }
+        },
+        {
+          "name": "Verify SMS OTP [Public]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"+85512333333\",\n  \"otpCode\": \"<OTP_CODE_FROM_REQUEST>\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/otp/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["otp", "verify"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "GPS Store Locator",
+      "item": [
+        {
+          "name": "Find Nearby Optical Stores (GPS Proximity) [Public]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/retail-shops/nearby/search?lat=11.5564&lng=104.9282&radiusKm=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["retail-shops", "nearby", "search"],
+              "query": [
+                { "key": "lat", "value": "11.5564" },
+                { "key": "lng", "value": "104.9282" },
+                { "key": "radiusKm", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List All Retail Shops [Public]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/retail-shops",
+              "host": ["{{baseUrl}}"],
+              "path": ["retail-shops"]
             }
           }
         }

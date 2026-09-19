@@ -6,10 +6,13 @@ import {
   Order,
   OrderItem,
   Sku,
+  LensVariant,
+  B2bInventory,
   RetailInventory,
   InventoryMovement,
   LogisticsTracking,
   RetailShop,
+  B2bInvoice,
 } from '../../database/entities';
 
 @Module({
@@ -18,10 +21,13 @@ import {
       Order,
       OrderItem,
       Sku,
+      LensVariant,
+      B2bInventory,
       RetailInventory,
       InventoryMovement,
       LogisticsTracking,
       RetailShop,
+      B2bInvoice,
     ]),
   ],
   controllers: [OrdersController],

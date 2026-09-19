@@ -12,6 +12,11 @@ import { InventoryModule } from './modules/inventory/inventory.module';
 import { RetailInventoryModule } from './modules/retail-inventory/retail-inventory.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { LogisticsModule } from './modules/logistics/logistics.module';
+import { LensMatrixModule } from './modules/lens-matrix/lens-matrix.module';
+import { PrescriptionsModule } from './modules/prescriptions/prescriptions.module';
+import { JobCardsModule } from './modules/job-cards/job-cards.module';
+import { PaymentsModule } from './modules/payments/payments.module';
+import { OtpModule } from './modules/otp/otp.module';
 
 @Module({
   imports: [
@@ -28,6 +33,11 @@ import { LogisticsModule } from './modules/logistics/logistics.module';
     RetailInventoryModule,
     OrdersModule,
     LogisticsModule,
+    LensMatrixModule,
+    PrescriptionsModule,
+    JobCardsModule,
+    PaymentsModule,
+    OtpModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,5 +1,5 @@
-import { Controller, Get, Put, Body, Param, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { Controller, Get, Put, Body, Param, Query, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { RetailShopsService } from './retail-shops.service';
 import { UpdateRetailShopDto } from './dto/update-retail-shop.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
@@ -9,7 +9,7 @@ import { GetUser } from '../../common/decorators/get-user.decorator';
 import { UserContext } from '../../common/interfaces/jwt-payload.interface';
 import { UserRole } from '../../database/enums';
 
-@ApiTags('Retail Shops')
+@ApiTags('Retail Shops & GPS Locator')
 @Controller('retail-shops')
 export class RetailShopsController {
   constructor(private readonly retailShopsService: RetailShopsService) {}
@@ -18,6 +18,19 @@ export class RetailShopsController {
   @ApiOperation({ summary: 'List all retail shops' })
   findAll() {
     return this.retailShopsService.findAll();
+  }
+
+  @Get('nearby/search')
+  @ApiOperation({ summary: 'GPS Store Locator: Find nearby partner stores by lat/lng proximity' })
+  @ApiQuery({ name: 'lat', required: true, type: Number })
+  @ApiQuery({ name: 'lng', required: true, type: Number })
+  @ApiQuery({ name: 'radiusKm', required: false, type: Number })
+  findNearby(
+    @Query('lat') lat: number,
+    @Query('lng') lng: number,
+    @Query('radiusKm') radiusKm?: number,
+  ) {
+    return this.retailShopsService.findNearby(Number(lat), Number(lng), radiusKm ? Number(radiusKm) : 10);
   }
 
   @Get(':id')
