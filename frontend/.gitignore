@@ -13,6 +13,7 @@ dist
 dist-ssr
 coverage
 *.local
+.agents
 
 # Editor directories and files
 .vscode/*
