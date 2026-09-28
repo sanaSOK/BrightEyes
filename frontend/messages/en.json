@@ -1,0 +1,44 @@
+{
+  "common": {
+    "appName": "OptiTrade B2B",
+    "marketplace": "B2B Optics Wholesale Marketplace",
+    "search": "Search frames, lenses, components, SKUs...",
+    "cart": "Cart",
+    "rfq": "RFQ Quotes",
+    "orders": "Orders",
+    "login": "Sign In",
+    "register": "Register Business",
+    "logout": "Sign Out",
+    "moq": "MOQ",
+    "pcs": "pcs",
+    "leadTime": "Lead Time",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "requestQuote": "Request Quote",
+    "addToCart": "Add to Cart",
+    "viewDetails": "View Details",
+    "loginToSeePrice": "Login to see B2B price",
+    "verifiedSupplier": "Verified Supplier",
+    "units": "units"
+  },
+  "nav": {
+    "products": "Products Catalog",
+    "categories": "Categories",
+    "rfqList": "RFQ Dashboard",
+    "ordersList": "Order History",
+    "companyAccount": "Company Profile"
+  },
+  "product": {
+    "filters": "Filters",
+    "clearAll": "Clear All",
+    "category": "Category",
+    "priceVisibilityNotice": "Wholesale pricing is visible only to verified company accounts.",
+    "tierPricing": "Tier Pricing",
+    "minQty": "Min Qty",
+    "unitPrice": "Price / Unit",
+    "specifications": "Specifications",
+    "variants": "Variants",
+    "selectVariant": "Select Variant",
+    "quantityStepNotice": "Order quantity must be a multiple of {step} pcs."
+  }
+}
